@@ -5,6 +5,10 @@ import lombok.Data;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +36,17 @@ public class WeatherController {
             }
         } catch (Exception e) {
             System.err.println("No se encontro archivo");
+        }
+    }
+
+    public void changeEncoding() {
+        String newArchivo = "src" + File.separator + "data" + File.separator + "Aemet20171029.csv";
+        try {
+            String contenido = Files.readString(Paths.get(ruta), StandardCharsets.ISO_8859_1);
+            Files.writeString(Paths.get(newArchivo), contenido, StandardCharsets.UTF_16);
+            System.out.println("Cambio de codificación exitoso.");
+        } catch (IOException e) {
+            System.err.println("Error al cambiar la codificación del archivo." + e.getMessage());
         }
     }
 

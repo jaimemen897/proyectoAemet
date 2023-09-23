@@ -7,5 +7,6 @@ public class Main {
         WeatherController controller = Controllers.WeatherController.getInstance();
         controller.loadWeather();
         controller.mostrarDatos();
+        controller.changeEncoding();
     }
 }
