@@ -1,12 +1,11 @@
 import Controllers.WeatherController;
 
-import java.io.File;
-
 public class Main {
     public static void main(String[] args) {
-        WeatherController controller = Controllers.WeatherController.getInstance();
+        WeatherController controller = WeatherController.getInstance();
+        /*controller.changeEncoding();*/
         controller.loadWeather();
-        controller.mostrarDatos();
-        controller.changeEncoding();
+        controller.show();
+
     }
 }
