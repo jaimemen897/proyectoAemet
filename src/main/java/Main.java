@@ -18,7 +18,7 @@ public class Main {
             crud.create(weather);
         }
 
-        System.out.println(crud.maxTempByProvincia());
+        System.out.println(crud.averageTempByProvincia());
 
 
     }

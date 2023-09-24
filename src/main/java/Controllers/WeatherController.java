@@ -4,6 +4,7 @@ import lombok.Data;
 import models.Weather;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -37,7 +38,7 @@ public class WeatherController {
             changeEncoding(rutaOrigen, rutaNuevo);
 
             /*Leemos el fichero con BufferedReader línea a línea*/
-            try (BufferedReader br = new BufferedReader(new FileReader(rutaOrigen))) {
+            try (BufferedReader br = new BufferedReader(new FileReader(rutaNuevo))) {
                 String line = br.readLine();
                 while (line != null) {
                     /*Separamos en un array, creamos el Weather y lo metemos en la lista*/
@@ -57,7 +58,7 @@ public class WeatherController {
     public void changeEncoding(String oldArchivo, String newArchivo) {
         try {
             /*Lee el contenido del archivo de origen para copiarlo en el nuevo con distinto codificador*/
-            String contenido = Files.readString(Paths.get(oldArchivo), StandardCharsets.ISO_8859_1);
+            String contenido = Files.readString(Paths.get(oldArchivo), Charset.forName("Windows-1252"));
             Files.writeString(Paths.get(newArchivo), contenido, StandardCharsets.UTF_8);
         } catch (IOException e) {
             System.err.println("Error al cambiar la codificación del archivo." + e.getMessage());

@@ -197,4 +197,37 @@ public class Crud {
         return provincias;
     }
 
+    /*Medía de temperatura agrupado por provincias y día.*/
+    public List<String> averageTempByProvincia() {
+        List<String> provincias = new ArrayList<>();
+        for (int i = 29; i <= 31; i++) {
+            try {
+                ResultSet resultSet = connection.createStatement().executeQuery("SELECT provincia, (avg(tempMin) + avg(tempMax))/2 AS average FROM WEATHER " +
+                        "WHERE EXTRACT(DAY FROM dia) = " + i + " GROUP BY provincia, dia");
+                while (resultSet.next()) {
+                    System.out.println(resultSet.getString("provincia") + " - " + resultSet.getDouble("average") + "Cº  - " + i);
+                    provincias.add(resultSet.getString("provincia") + " - " + resultSet.getDouble("average"));
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al buscar la temperatura mínima: " + e.getMessage());
+            }
+        }
+        return provincias;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

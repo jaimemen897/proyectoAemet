@@ -6,9 +6,9 @@ El día viene en el propio nombre del fichero.
 - [x] Crear un CRUD completo para mediciones en una base de datos en fichero tipo H2 o SQLite. Los datos de conexión deben estar encapsulados en un manejador y leídos de un fichero de propiedades o de entorno. 
 - Obtener las siguiente información tras recuperar los datos de la base de datos:
   - [x]  ¿Dónde se dio la temperatura máxima y mínima total en cada uno de los días?.
-  - [ ]  Máxima temperatura agrupado por provincias y día.
-  - [ ]  Mínima temperatura agrupado por provincias y día.
-  - [ ]  Medía de temperatura agrupado por provincias y día.
+  - [x]  Máxima temperatura agrupado por provincias y día.
+  - [x]  Mínima temperatura agrupado por provincias y día.
+  - [x]  Medía de temperatura agrupado por provincias y día.
   - [ ]  Precipitación máxima por días y dónde se dio.
   - [ ]  Precipitación media por provincias y día.
   - [ ]  Lugares donde ha llovido de noche: 21:00 a 07:00
