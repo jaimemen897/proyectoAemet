@@ -2,12 +2,12 @@ package Controllers;
 
 import lombok.Data;
 import models.Weather;
-import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,7 +16,11 @@ import java.util.List;
 @Data
 public class WeatherController {
     private static WeatherController instance;
-    public List<Weather> weatherList = new ArrayList<>();
+    private List<Weather> weatherList = new ArrayList<>();
+
+    public List<Weather> getWeatherList() {
+        return weatherList;
+    }
 
     public static WeatherController getInstance() {
         if (instance == null) {
@@ -38,8 +42,9 @@ public class WeatherController {
                 while (line != null) {
                     /*Separamos en un array, creamos el Weather y lo metemos en la lista*/
                     String[] tiempo = line.split(";");
+                    LocalDate dia = LocalDate.of(2017, 10, i);
                     Weather weather = new Weather(tiempo[0], tiempo[1], Double.parseDouble(tiempo[2]), changeDate(tiempo[3], i),
-                            Double.parseDouble(tiempo[4]), changeDate(tiempo[5], i), tiempo[6]);
+                            Double.parseDouble(tiempo[4]), changeDate(tiempo[5], i), tiempo[6], dia);
                     weatherList.add(weather);
                     line = br.readLine();
                 }
@@ -74,16 +79,6 @@ public class WeatherController {
             System.out.println(weather);
         }
     }
-
-    /*Donde se dio la temperatura máxima y mínima total en cada uno de los días con stream*/
-    public void maxMinTemp() {
-        System.out.println("Día de la temperatura máxima y mínima total:");
-        weatherList.stream().filter(weather -> weather.getTempMax() == weatherList.stream().mapToDouble(Weather::getTempMax).max().getAsDouble())
-                .forEach(weather -> System.out.println(weather.getLocalidad() + " " + weather.getHoraTempMax()));
-        weatherList.stream().filter(weather -> weather.getTempMin() == weatherList.stream().mapToDouble(Weather::getTempMin).min().getAsDouble())
-                .forEach(weather -> System.out.println(weather.getLocalidad() + " " + weather.getHoraTempMin()));
-    }
-
 }
 
 

@@ -24,7 +24,7 @@ public class Crud {
     public void createTable() {
         try {
             connection.createStatement().executeUpdate("CREATE TABLE WEATHER (localidad VARCHAR(50), provincia VARCHAR(50)," +
-                    " tempMax DOUBLE, horaTempMax TIMESTAMP, tempMin DOUBLE, horaTempMin TIMESTAMP, precipitacion VARCHAR(50))");
+                    " tempMax DOUBLE, horaTempMax TIMESTAMP, tempMin DOUBLE, horaTempMin TIMESTAMP, precipitacion VARCHAR(50), dia TIMESTAMP)");
         } catch (SQLException e) {
             System.out.println("Error al crear la tabla: " + e.getMessage());
         }
@@ -34,7 +34,7 @@ public class Crud {
     public void create(Weather weather) {
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO WEATHER (localidad, provincia, " +
-                    "tempMax, horaTempMax, tempMin, horaTempMin, precipitacion) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    "tempMax, horaTempMax, tempMin, horaTempMin, precipitacion, dia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setString(1, weather.getLocalidad());
             statement.setString(2, weather.getProvincia());
             statement.setDouble(3, weather.getTempMax());
@@ -42,6 +42,7 @@ public class Crud {
             statement.setDouble(5, weather.getTempMin());
             statement.setTimestamp(6, Timestamp.valueOf(weather.getHoraTempMin()));
             statement.setString(7, weather.getPrecipitacion());
+            statement.setTimestamp(8, Timestamp.valueOf(weather.getDay().atStartOfDay()));
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al insertar: " + e.getMessage());
@@ -61,8 +62,8 @@ public class Crud {
                         resultSet.getTimestamp("horaTempMax").toLocalDateTime(),
                         resultSet.getDouble("tempMin"),
                         resultSet.getTimestamp("horaTempMin").toLocalDateTime(),
-                        resultSet.getString("precipitacion")
-                ));
+                        resultSet.getString("precipitacion"),
+                        resultSet.getTimestamp("day").toLocalDateTime().toLocalDate()));
             }
         } catch (SQLException e) {
             System.out.println("Error en findAll: " + e.getMessage());
@@ -85,8 +86,8 @@ public class Crud {
                         resultSet.getTimestamp("horaTempMax").toLocalDateTime(),
                         resultSet.getDouble("tempMin"),
                         resultSet.getTimestamp("horaTempMin").toLocalDateTime(),
-                        resultSet.getString("precipitacion")
-                );
+                        resultSet.getString("precipitacion"),
+                        resultSet.getTimestamp("day").toLocalDateTime().toLocalDate());
             }
         } catch (SQLException e) {
             System.out.println("Error en findByLocalidadAndProvincia: " + e.getMessage());
@@ -98,7 +99,7 @@ public class Crud {
     public void update(Weather weather) {
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE WEATHER SET tempMax = ?, horaTempMax = ?," +
-                    " tempMin = ?, horaTempMin = ?, precipitacion = ? WHERE localidad = ? AND provincia = ?");
+                    " tempMin = ?, horaTempMin = ?, precipitacion = ?, dia = ? WHERE localidad = ? AND provincia = ?");
             statement.setDouble(1, weather.getTempMax());
             statement.setTimestamp(2, Timestamp.valueOf(weather.getHoraTempMax()));
             statement.setDouble(3, weather.getTempMin());
@@ -106,6 +107,7 @@ public class Crud {
             statement.setString(5, weather.getPrecipitacion());
             statement.setString(6, weather.getLocalidad());
             statement.setString(7, weather.getProvincia());
+            statement.setTimestamp(8, Timestamp.valueOf(weather.getDay().atStartOfDay()));
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al actualizar: " + e.getMessage());
@@ -124,7 +126,39 @@ public class Crud {
         }
     }
 
+    /*Dónde se dio la temperatura máxima y mínima total en cada uno de los días*/
+    public List<String> maxTemp() {
+        List<String> localidades = new ArrayList<>();
+        for (int i = 29; i <= 31; i++) {
+            try {
+                ResultSet resultSet = connection.createStatement().executeQuery("SELECT localidad FROM WEATHER " +
+                        "WHERE tempMax = (SELECT MAX(tempMax) FROM WEATHER WHERE EXTRACT(DAY FROM horaTempMax) = " + i + ") " +
+                        "AND EXTRACT(DAY FROM horaTempMax) = " + i + " ");
+                if (resultSet.next()) {
+                    localidades.add(resultSet.getString("LOCALIDAD"));
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al buscar la temperatura máxima: " + e.getMessage());
+            }
+        }
+        return localidades;
+    }
 
-
+    public List<String> minTemp() {
+        List<String> localidades = new ArrayList<>();
+        for (int i = 29; i <= 31; i++) {
+            try {
+                ResultSet resultSet = connection.createStatement().executeQuery("SELECT localidad FROM WEATHER " +
+                        "WHERE tempMin = (SELECT min(tempMin) FROM WEATHER WHERE EXTRACT(DAY FROM horaTempMin) = " + i + ") " +
+                        "AND EXTRACT(DAY FROM horaTempMin) = " + i + " ");
+                if (resultSet.next()) {
+                    localidades.add(resultSet.getString("LOCALIDAD"));
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al buscar la temperatura mínima: " + e.getMessage());
+            }
+        }
+        return localidades;
+    }
 
 }

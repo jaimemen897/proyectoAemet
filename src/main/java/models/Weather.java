@@ -1,5 +1,6 @@
 package models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Weather {
@@ -10,8 +11,9 @@ public class Weather {
     private final Double tempMin;
     private final LocalDateTime horaTempMin;
     private final String precipitacion;
+    private final LocalDate day;
 
-    public Weather(String localidad, String provincia, Double tempMax, LocalDateTime horaTempMax, Double tempMin, LocalDateTime horaTempMin, String precipitacion) {
+    public Weather(String localidad, String provincia, Double tempMax, LocalDateTime horaTempMax, Double tempMin, LocalDateTime horaTempMin, String precipitacion, LocalDate day) {
         this.localidad = localidad;
         this.provincia = provincia;
         this.tempMax = tempMax;
@@ -19,6 +21,7 @@ public class Weather {
         this.tempMin = tempMin;
         this.horaTempMin = horaTempMin;
         this.precipitacion = precipitacion;
+        this.day = day;
     }
 
     @Override
@@ -60,5 +63,9 @@ public class Weather {
 
     public String getPrecipitacion() {
         return precipitacion;
+    }
+
+    public LocalDate getDay() {
+        return day;
     }
 }
