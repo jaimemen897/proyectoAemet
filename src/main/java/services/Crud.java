@@ -179,6 +179,22 @@ public class Crud {
         return provincias;
     }
 
-
+    /*Mínima temperatura agrupado por provincias y día*/
+    public List<String> minTempByProvincia() {
+        List<String> provincias = new ArrayList<>();
+        for (int i = 29; i <= 31; i++) {
+            try {
+                ResultSet resultSet = connection.createStatement().executeQuery("SELECT provincia, MIN(tempMin) AS tempMin FROM WEATHER " +
+                        "WHERE EXTRACT(DAY FROM dia) = " + i + " GROUP BY provincia, dia");
+                while (resultSet.next()) {
+                    System.out.println(resultSet.getString("provincia") + " - " + resultSet.getDouble("tempMin") + "Cº  - " + i);
+                    provincias.add(resultSet.getString("provincia") + " - " + resultSet.getDouble("tempMin"));
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al buscar la temperatura mínima: " + e.getMessage());
+            }
+        }
+        return provincias;
+    }
 
 }
