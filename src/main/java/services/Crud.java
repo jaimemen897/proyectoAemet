@@ -132,8 +132,8 @@ public class Crud {
         for (int i = 29; i <= 31; i++) {
             try {
                 ResultSet resultSet = connection.createStatement().executeQuery("SELECT localidad FROM WEATHER " +
-                        "WHERE tempMax = (SELECT MAX(tempMax) FROM WEATHER WHERE EXTRACT(DAY FROM horaTempMax) = " + i + ") " +
-                        "AND EXTRACT(DAY FROM horaTempMax) = " + i + " ");
+                        "WHERE tempMax = (SELECT MAX(tempMax) FROM WEATHER WHERE EXTRACT(DAY FROM dia) = " + i + ") " +
+                        "AND EXTRACT(DAY FROM dia) = " + i + " ");
                 if (resultSet.next()) {
                     localidades.add(resultSet.getString("LOCALIDAD"));
                 }
@@ -149,8 +149,8 @@ public class Crud {
         for (int i = 29; i <= 31; i++) {
             try {
                 ResultSet resultSet = connection.createStatement().executeQuery("SELECT localidad FROM WEATHER " +
-                        "WHERE tempMin = (SELECT min(tempMin) FROM WEATHER WHERE EXTRACT(DAY FROM horaTempMin) = " + i + ") " +
-                        "AND EXTRACT(DAY FROM horaTempMin) = " + i + " ");
+                        "WHERE tempMin = (SELECT min(tempMin) FROM WEATHER WHERE EXTRACT(DAY FROM dia) = " + i + ") " +
+                        "AND EXTRACT(DAY FROM dia) = " + i + " ");
                 if (resultSet.next()) {
                     localidades.add(resultSet.getString("LOCALIDAD"));
                 }
@@ -160,5 +160,25 @@ public class Crud {
         }
         return localidades;
     }
+
+    /*Máxima temperatura agrupado por provincias y día*/
+    public List<String> maxTempByProvincia() {
+        List<String> provincias = new ArrayList<>();
+        for (int i = 29; i <= 31; i++) {
+            try {
+                ResultSet resultSet = connection.createStatement().executeQuery("SELECT provincia, MAX(tempMax) AS tempMax FROM WEATHER " +
+                        "WHERE EXTRACT(DAY FROM dia) = " + i + " GROUP BY provincia, dia");
+                while (resultSet.next()) {
+                    System.out.println(resultSet.getString("provincia") + " - " + resultSet.getDouble("tempMax") + "Cº  - " + i);
+                    provincias.add(resultSet.getString("provincia") + " - " + resultSet.getDouble("tempMax"));
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al buscar la temperatura máxima: " + e.getMessage());
+            }
+        }
+        return provincias;
+    }
+
+
 
 }
