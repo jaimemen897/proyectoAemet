@@ -1,8 +1,13 @@
 package models;
 
+import lombok.Builder;
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Data
+@Builder
 public class Weather {
     private final String localidad;
     private final String provincia;
@@ -22,50 +27,5 @@ public class Weather {
         this.horaTempMin = horaTempMin;
         this.precipitacion = precipitacion;
         this.day = day;
-    }
-
-    @Override
-    public String toString() {
-        return "Weather{" +
-                "localidad='" + localidad + '\'' +
-                ", provincia='" + provincia + '\'' +
-                ", tempMax='" + tempMax + '\'' +
-                ", horaTempMax=" + horaTempMax +
-                ", tempMin='" + tempMin + '\'' +
-                ", horaTempMin=" + horaTempMin +
-                ", precipitacion='" + precipitacion + '\'' +
-                '}';
-    }
-
-    public String getLocalidad() {
-        return localidad;
-    }
-
-    public String getProvincia() {
-        return provincia;
-    }
-
-    public Double getTempMax() {
-        return tempMax;
-    }
-
-    public LocalDateTime getHoraTempMax() {
-        return horaTempMax;
-    }
-
-    public Double getTempMin() {
-        return tempMin;
-    }
-
-    public LocalDateTime getHoraTempMin() {
-        return horaTempMin;
-    }
-
-    public String getPrecipitacion() {
-        return precipitacion;
-    }
-
-    public LocalDate getDay() {
-        return day;
     }
 }

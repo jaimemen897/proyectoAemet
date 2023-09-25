@@ -1,40 +1,33 @@
 package services;
 
+import models.Crud;
 import models.Weather;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class Crud {
-    private static Crud instance;
+public class WeatherManager implements Crud<Weather> {
+    private static WeatherManager instance;
     private final Connection connection;
 
-    private Crud(Connection connection) {
+    private WeatherManager(Connection connection) {
         this.connection = connection;
     }
 
-    public static Crud getInstance(Connection connection) {
+    public static WeatherManager getInstance(Connection connection) {
         if (instance == null) {
-            instance = new Crud(connection);
+            instance = new WeatherManager(connection);
         }
         return instance;
     }
 
-    public void createTable() {
-        try {
-            connection.createStatement().executeUpdate("CREATE TABLE WEATHER (localidad VARCHAR(50), provincia VARCHAR(50)," +
-                    " tempMax DOUBLE, horaTempMax TIMESTAMP, tempMin DOUBLE, horaTempMin TIMESTAMP, precipitacion VARCHAR(50), dia TIMESTAMP)");
-        } catch (SQLException e) {
-            System.out.println("Error al crear la tabla: " + e.getMessage());
-        }
-    }
-
     /*CREATE*/
-    public void create(Weather weather) {
+    public void save(Weather weather) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO WEATHER (localidad, provincia, " +
-                    "tempMax, horaTempMax, tempMin, horaTempMin, precipitacion, dia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            String sqlQuery = "INSERT INTO WEATHER (localidad, provincia, tempMax, horaTempMax, tempMin, horaTempMin, precipitacion, dia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setString(1, weather.getLocalidad());
             statement.setString(2, weather.getProvincia());
             statement.setDouble(3, weather.getTempMax());
@@ -43,6 +36,7 @@ public class Crud {
             statement.setTimestamp(6, Timestamp.valueOf(weather.getHoraTempMin()));
             statement.setString(7, weather.getPrecipitacion());
             statement.setTimestamp(8, Timestamp.valueOf(weather.getDay().atStartOfDay()));
+
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al insertar: " + e.getMessage());
@@ -63,7 +57,7 @@ public class Crud {
                         resultSet.getDouble("tempMin"),
                         resultSet.getTimestamp("horaTempMin").toLocalDateTime(),
                         resultSet.getString("precipitacion"),
-                        resultSet.getTimestamp("day").toLocalDateTime().toLocalDate()));
+                        resultSet.getTimestamp("dia").toLocalDateTime().toLocalDate()));
             }
         } catch (SQLException e) {
             System.out.println("Error en findAll: " + e.getMessage());
@@ -71,7 +65,7 @@ public class Crud {
         return weathers;
     }
 
-    public Weather findByLocalidadAndProvincia(String localidad, String provincia) {
+    public Optional<Weather> findByLocalidadAndProvincia(String localidad, String provincia) {
         Weather weather = null;
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM WEATHER WHERE localidad = ? AND provincia = ?");
@@ -92,14 +86,15 @@ public class Crud {
         } catch (SQLException e) {
             System.out.println("Error en findByLocalidadAndProvincia: " + e.getMessage());
         }
-        return weather;
+        return Optional.ofNullable(weather);
     }
 
     /*UPDATE*/
     public void update(Weather weather) {
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE WEATHER SET tempMax = ?, horaTempMax = ?," +
-                    " tempMin = ?, horaTempMin = ?, precipitacion = ?, dia = ? WHERE localidad = ? AND provincia = ?");
+            String sqlQuery = "UPDATE WEATHER SET tempMax = ?, horaTempMax = ?, tempMin = ?, horaTempMin = ?, precipitacion = ?, dia = ? WHERE localidad = ? AND provincia = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+
             statement.setDouble(1, weather.getTempMax());
             statement.setTimestamp(2, Timestamp.valueOf(weather.getHoraTempMax()));
             statement.setDouble(3, weather.getTempMin());
@@ -117,9 +112,21 @@ public class Crud {
     /*DELETE*/
     public void delete(Weather weather) {
         try {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM WEATHER WHERE localidad = ? AND provincia = ?");
+            String sqlQuery = "DELETE FROM WEATHER WHERE localidad = ? AND provincia = ? and dia = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setString(1, weather.getLocalidad());
             statement.setString(2, weather.getProvincia());
+            statement.setTimestamp(3, Timestamp.valueOf(weather.getDay().atStartOfDay()));
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar: " + e.getMessage());
+        }
+    }
+
+    public void deleteAll() {
+        try {
+            String sqlQuery = "DELETE FROM WEATHER";
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al eliminar: " + e.getMessage());
@@ -131,9 +138,8 @@ public class Crud {
         List<String> localidades = new ArrayList<>();
         for (int i = 29; i <= 31; i++) {
             try {
-                ResultSet resultSet = connection.createStatement().executeQuery("SELECT localidad FROM WEATHER " +
-                        "WHERE tempMax = (SELECT MAX(tempMax) FROM WEATHER WHERE EXTRACT(DAY FROM dia) = " + i + ") " +
-                        "AND EXTRACT(DAY FROM dia) = " + i + " ");
+                String sqlQuery = "SELECT localidad FROM WEATHER WHERE tempMax = (SELECT MAX(tempMax) FROM WEATHER WHERE EXTRACT(DAY FROM dia) = " + i + ") AND EXTRACT(DAY FROM dia) = " + i + " ";
+                ResultSet resultSet = connection.createStatement().executeQuery(sqlQuery);
                 if (resultSet.next()) {
                     localidades.add(resultSet.getString("LOCALIDAD"));
                 }
@@ -214,20 +220,4 @@ public class Crud {
         }
         return provincias;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
