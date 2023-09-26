@@ -15,10 +15,10 @@ public class Weather {
     private final LocalDateTime horaTempMax;
     private final Double tempMin;
     private final LocalDateTime horaTempMin;
-    private final String precipitacion;
+    private final double precipitacion;
     private final LocalDate day;
 
-    public Weather(String localidad, String provincia, Double tempMax, LocalDateTime horaTempMax, Double tempMin, LocalDateTime horaTempMin, String precipitacion, LocalDate day) {
+    public Weather(String localidad, String provincia, Double tempMax, LocalDateTime horaTempMax, Double tempMin, LocalDateTime horaTempMin, double precipitacion, LocalDate day) {
         this.localidad = localidad;
         this.provincia = provincia;
         this.tempMax = tempMax;

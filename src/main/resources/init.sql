@@ -7,6 +7,6 @@ CREATE TABLE WEATHER
     horaTempMax   TIMESTAMP,
     tempMin DOUBLE,
     horaTempMin   TIMESTAMP,
-    precipitacion VARCHAR(50),
+    precipitacion double,
     dia           TIMESTAMP
 );

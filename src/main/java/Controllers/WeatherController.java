@@ -50,7 +50,7 @@ public class WeatherController {
                                 LocalDate dia = LocalDate.of(year, month, day);
 
                                 Weather weather = new Weather(tiempo[0], tiempo[1], Double.parseDouble(tiempo[2]), changeDate(tiempo[3], day),
-                                        Double.parseDouble(tiempo[4]), changeDate(tiempo[5], day), tiempo[6], dia);
+                                        Double.parseDouble(tiempo[4]), changeDate(tiempo[5], day), Double.parseDouble(tiempo[6]), dia);
                                 weatherList.add(weather);
                                 line = br.readLine();
                             }
