@@ -1,7 +1,11 @@
-import Controllers.WeatherController;
+import controllers.WeatherController;
+import models.CombinedPreciProv;
 import models.Weather;
 import services.DB;
 import services.WeatherManager;
+
+import java.time.LocalDate;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,6 +20,11 @@ public class Main {
             weatherManager.save(weather);
         }
 
-        weatherManager.findAll().forEach(System.out::println);
+        Map<LocalDate, CombinedPreciProv> mapa = weatherManager.maxPrecipitationByProvincia("Asturias");
+
+        //Muestra el mapa
+        for (Map.Entry<LocalDate, CombinedPreciProv> entry : mapa.entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        }
     }
 }

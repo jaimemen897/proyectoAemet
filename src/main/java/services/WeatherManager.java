@@ -1,12 +1,19 @@
 package services;
 
+import models.CombinedPreciProv;
+import models.CombinedProTemp;
 import models.Crud;
 import models.Weather;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import static java.util.Comparator.comparingDouble;
+import static java.util.stream.Collectors.*;
 
 public class WeatherManager implements Crud<Weather> {
     private static WeatherManager instance;
@@ -34,7 +41,7 @@ public class WeatherManager implements Crud<Weather> {
             statement.setTimestamp(4, Timestamp.valueOf(weather.getHoraTempMax()));
             statement.setDouble(5, weather.getTempMin());
             statement.setTimestamp(6, Timestamp.valueOf(weather.getHoraTempMin()));
-            statement.setString(7, weather.getPrecipitacion());
+            statement.setDouble(7, weather.getPrecipitacion());
             statement.setTimestamp(8, Timestamp.valueOf(weather.getDay().atStartOfDay()));
 
             statement.executeUpdate();
@@ -56,7 +63,7 @@ public class WeatherManager implements Crud<Weather> {
                         resultSet.getTimestamp("horaTempMax").toLocalDateTime(),
                         resultSet.getDouble("tempMin"),
                         resultSet.getTimestamp("horaTempMin").toLocalDateTime(),
-                        resultSet.getString("precipitacion"),
+                        resultSet.getDouble("precipitacion"),
                         resultSet.getTimestamp("dia").toLocalDateTime().toLocalDate()));
             }
         } catch (SQLException e) {
@@ -80,7 +87,7 @@ public class WeatherManager implements Crud<Weather> {
                         resultSet.getTimestamp("horaTempMax").toLocalDateTime(),
                         resultSet.getDouble("tempMin"),
                         resultSet.getTimestamp("horaTempMin").toLocalDateTime(),
-                        resultSet.getString("precipitacion"),
+                        resultSet.getDouble("precipitacion"),
                         resultSet.getTimestamp("day").toLocalDateTime().toLocalDate());
             }
         } catch (SQLException e) {
@@ -99,7 +106,7 @@ public class WeatherManager implements Crud<Weather> {
             statement.setTimestamp(2, Timestamp.valueOf(weather.getHoraTempMax()));
             statement.setDouble(3, weather.getTempMin());
             statement.setTimestamp(4, Timestamp.valueOf(weather.getHoraTempMin()));
-            statement.setString(5, weather.getPrecipitacion());
+            statement.setDouble(5, weather.getPrecipitacion());
             statement.setString(6, weather.getLocalidad());
             statement.setString(7, weather.getProvincia());
             statement.setTimestamp(8, Timestamp.valueOf(weather.getDay().atStartOfDay()));
@@ -133,91 +140,133 @@ public class WeatherManager implements Crud<Weather> {
         }
     }
 
-    /*Dónde se dio la temperatura máxima y mínima total en cada uno de los días*/
-    public List<String> maxTemp() {
-        List<String> localidades = new ArrayList<>();
-        for (int i = 29; i <= 31; i++) {
-            try {
-                String sqlQuery = "SELECT localidad FROM WEATHER WHERE tempMax = (SELECT MAX(tempMax) FROM WEATHER WHERE EXTRACT(DAY FROM dia) = " + i + ") AND EXTRACT(DAY FROM dia) = " + i + " ";
-                ResultSet resultSet = connection.createStatement().executeQuery(sqlQuery);
-                if (resultSet.next()) {
-                    localidades.add(resultSet.getString("LOCALIDAD"));
-                }
-            } catch (SQLException e) {
-                System.out.println("Error al buscar la temperatura máxima: " + e.getMessage());
-            }
-        }
-        return localidades;
+    public Map<LocalDate, Optional<String>> maxTemp() {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .collect(groupingBy(Weather::getDay,
+                        collectingAndThen(maxBy(comparingDouble(Weather::getTempMax)), w -> w.map(Weather::getProvincia))));
     }
 
-    public List<String> minTemp() {
-        List<String> localidades = new ArrayList<>();
-        for (int i = 29; i <= 31; i++) {
-            try {
-                ResultSet resultSet = connection.createStatement().executeQuery("SELECT localidad FROM WEATHER " +
-                        "WHERE tempMin = (SELECT min(tempMin) FROM WEATHER WHERE EXTRACT(DAY FROM dia) = " + i + ") " +
-                        "AND EXTRACT(DAY FROM dia) = " + i + " ");
-                if (resultSet.next()) {
-                    localidades.add(resultSet.getString("LOCALIDAD"));
-                }
-            } catch (SQLException e) {
-                System.out.println("Error al buscar la temperatura mínima: " + e.getMessage());
-            }
-        }
-        return localidades;
+
+    public Map<LocalDate, Optional<String>> minTemp() {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .collect(groupingBy(Weather::getDay,
+                        collectingAndThen(minBy(comparingDouble(Weather::getTempMin)), w -> w.map(Weather::getProvincia))));
     }
 
-    /*Máxima temperatura agrupado por provincias y día*/
-    public List<String> maxTempByProvincia() {
-        List<String> provincias = new ArrayList<>();
-        for (int i = 29; i <= 31; i++) {
-            try {
-                ResultSet resultSet = connection.createStatement().executeQuery("SELECT provincia, MAX(tempMax) AS tempMax FROM WEATHER " +
-                        "WHERE EXTRACT(DAY FROM dia) = " + i + " GROUP BY provincia, dia");
-                while (resultSet.next()) {
-                    System.out.println(resultSet.getString("provincia") + " - " + resultSet.getDouble("tempMax") + "Cº  - " + i);
-                    provincias.add(resultSet.getString("provincia") + " - " + resultSet.getDouble("tempMax"));
-                }
-            } catch (SQLException e) {
-                System.out.println("Error al buscar la temperatura máxima: " + e.getMessage());
-            }
-        }
-        return provincias;
+    /*Máxima temperatura agrupada por provincias y día*/
+    public Map<CombinedProTemp, Double> maxTempByGroup() {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .collect(groupingBy(combined -> new CombinedProTemp(combined.getProvincia(), combined.getDay()),
+                        collectingAndThen(maxBy(comparingDouble(Weather::getTempMax)), w -> w.map(Weather::getTempMax).orElse(0.0))));
     }
 
-    /*Mínima temperatura agrupado por provincias y día*/
-    public List<String> minTempByProvincia() {
-        List<String> provincias = new ArrayList<>();
-        for (int i = 29; i <= 31; i++) {
-            try {
-                ResultSet resultSet = connection.createStatement().executeQuery("SELECT provincia, MIN(tempMin) AS tempMin FROM WEATHER " +
-                        "WHERE EXTRACT(DAY FROM dia) = " + i + " GROUP BY provincia, dia");
-                while (resultSet.next()) {
-                    System.out.println(resultSet.getString("provincia") + " - " + resultSet.getDouble("tempMin") + "Cº  - " + i);
-                    provincias.add(resultSet.getString("provincia") + " - " + resultSet.getDouble("tempMin"));
-                }
-            } catch (SQLException e) {
-                System.out.println("Error al buscar la temperatura mínima: " + e.getMessage());
-            }
-        }
-        return provincias;
+    /*Mínima temperatura agrupada por provincias y día*/
+    public Map<CombinedProTemp, Double> minTempByGroup() {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .collect(groupingBy(combined -> new CombinedProTemp(combined.getProvincia(), combined.getDay()),
+                        collectingAndThen(minBy(comparingDouble(Weather::getTempMin)), w -> w.map(Weather::getTempMin).orElse(0.0))));
     }
 
-    /*Medía de temperatura agrupado por provincias y día.*/
-    public List<String> averageTempByProvincia() {
-        List<String> provincias = new ArrayList<>();
-        for (int i = 29; i <= 31; i++) {
-            try {
-                ResultSet resultSet = connection.createStatement().executeQuery("SELECT provincia, (avg(tempMin) + avg(tempMax))/2 AS average FROM WEATHER " +
-                        "WHERE EXTRACT(DAY FROM dia) = " + i + " GROUP BY provincia, dia");
-                while (resultSet.next()) {
-                    System.out.println(resultSet.getString("provincia") + " - " + resultSet.getDouble("average") + "Cº  - " + i);
-                    provincias.add(resultSet.getString("provincia") + " - " + resultSet.getDouble("average"));
-                }
-            } catch (SQLException e) {
-                System.out.println("Error al buscar la temperatura mínima: " + e.getMessage());
-            }
-        }
-        return provincias;
+    /*Medía de temperatura agrupada por provincias y día.*/
+    public Map<CombinedProTemp, Double> getAverageTempByGroup() {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .collect(groupingBy(combined -> new CombinedProTemp(combined.getProvincia(), combined.getDay()),
+                        averagingDouble(Weather::getTempMax)));
     }
+
+    /*Precipitación máxima por días y donde se dio*/
+    public Map<LocalDate, Optional<String>> getMaxPrecipitation() {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .collect(groupingBy(Weather::getDay,
+                        collectingAndThen(maxBy(comparingDouble(Weather::getPrecipitacion)), w -> w.map(Weather::getProvincia))));
+    }
+
+    /*Precipitación media por provincias y días*/
+    public Map<CombinedProTemp, Double> getAveragePrecipitationByGroup() {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .collect(groupingBy(combined -> new CombinedProTemp(combined.getProvincia(), combined.getDay()),
+                        averagingDouble(Weather::getPrecipitacion)));
+    }
+
+    /*Lugares donde ha llovido agrupado por provincias y dia*/
+    public Map<CombinedProTemp, List<Weather>> getPlacesWhereRained() {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .filter(weather -> weather.getPrecipitacion() > 0)
+                .collect(groupingBy(combined -> new CombinedProTemp(combined.getProvincia(), combined.getDay()), toList()));
+    }
+
+    /*Temperatura máxima, mínima y dónde ha sido.*/
+    public Map<LocalDate, Optional<String>> maxTempByProvincia(String provincia) {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .filter(weather -> weather.getProvincia().equals(provincia))
+                .collect(groupingBy(Weather::getDay,
+                        collectingAndThen(maxBy(comparingDouble(Weather::getTempMax)), w -> w.map(Weather::getLocalidad))));
+    }
+
+    public Map<LocalDate, Optional<String>> minTempByProvincia(String provincia) {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .filter(weather -> weather.getProvincia().equals(provincia))
+                .collect(groupingBy(Weather::getDay,
+                        collectingAndThen(minBy(comparingDouble(Weather::getTempMin)), w -> w.map(Weather::getLocalidad))));
+    }
+
+    /*Temperatura media máxima*/
+    public Map<LocalDate, Double> getAvgTempMaxByProvincia(String provincia) {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .filter(weather -> weather.getProvincia().equals(provincia))
+                .collect(groupingBy(Weather::getDay, averagingDouble(Weather::getTempMax)));
+    }
+
+    /*Temperatura media mínima*/
+    public Map<LocalDate, Double> getAvgTempMinByProvincia(String provincia) {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .filter(weather -> weather.getProvincia().equals(provincia))
+                .collect(groupingBy(Weather::getDay, averagingDouble(Weather::getTempMin)));
+    }
+
+    /*Precipitación máxima y dónde ha sido*/
+    public Map<LocalDate, CombinedPreciProv> maxPrecipitationByProvincia(String provincia) {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .filter(weather -> weather.getProvincia().equals(provincia))
+                .collect(groupingBy(Weather::getDay,
+                        collectingAndThen(maxBy(comparingDouble(Weather::getPrecipitacion)),
+                                w -> w.map(weather -> new CombinedPreciProv(weather.getLocalidad(), weather.getPrecipitacion())).orElse(null))));
+    }
+
+    /*Precipitación media*/
+    public Map<LocalDate, Double> getAvgPrecipitationByProvincia(String provincia) {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .filter(weather -> weather.getProvincia().equals(provincia))
+                .collect(groupingBy(Weather::getDay, averagingDouble(Weather::getPrecipitacion)));
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
