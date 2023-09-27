@@ -2,15 +2,10 @@ package models;
 
 import lombok.Data;
 
-import java.time.LocalDate;
-
 @Data
-public class CombinedProTemp {
-    private final String provincia;
-    private final LocalDate date;
+public class CombinedProTemp<T,T1> {
+    private final T item;
+    private final T1 item2;
 
-    public CombinedProTemp(String provincia, LocalDate date) {
-        this.provincia = provincia;
-        this.date = date;
-    }
+
 }

@@ -1,5 +1,6 @@
 package models;
 
+import com.google.gson.annotations.JsonAdapter;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
+@JsonAdapter(LocalDateAdapter.class)
 public class Weather {
     private final String localidad;
     private final String provincia;

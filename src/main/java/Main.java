@@ -1,9 +1,10 @@
-import Controllers.WeatherController;
-import models.CombinedProTemp;
+import controllers.WeatherController;
+import models.CombinedPreciProv;
 import models.Weather;
 import services.DB;
 import services.WeatherManager;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 public class Main {
@@ -19,13 +20,11 @@ public class Main {
             weatherManager.save(weather);
         }
 
-        Map<CombinedProTemp, Double> mapa = weatherManager.getPlacesWhereRained();
+        Map<LocalDate, CombinedPreciProv> mapa = weatherManager.maxPrecipitationByProvincia("Asturias");
 
         //Muestra el mapa
-        for (Map.Entry<CombinedProTemp, Double> entry : mapa.entrySet()) {
+        for (Map.Entry<LocalDate, CombinedPreciProv> entry : mapa.entrySet()) {
             System.out.println(entry.getKey() + " " + entry.getValue());
         }
-
-        /*System.out.println(weatherManager.getAvgTempMaxByProvincia("Madrid"));*/
     }
 }

@@ -11,7 +11,7 @@ El día viene en el propio nombre del fichero.
   - [x]  Medía de temperatura agrupado por provincias y día.
   - [x]  Precipitación máxima por días y dónde se dio.
   - [x]  Precipitación media por provincias y día.
-  - [ ]  Lugares donde ha llovido agrupado por provincias y dia
+  - [x]  Lugares donde ha llovido agrupado por provincias y dia
   - [x]  Datos de la provincia de Madrid (debe funcionar para cualquier provincia)
     - [x]  Por cada día:
     - [x]  Temperatura máxima, mínima y dónde ha sido.
@@ -20,4 +20,4 @@ El día viene en el propio nombre del fichero.
     - [x]  Precipitación máxima y dónde ha sido.
     - [x]  Precipitación media.
 
-- [ ] Exportar los datos de una provincia dada (por ejemplo Madrid) a un fichero json.
+- [x] Exportar los datos de una provincia dada (por ejemplo Madrid) a un fichero json.

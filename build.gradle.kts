@@ -18,6 +18,8 @@ dependencies {
     implementation("com.h2database:h2:2.2.224")
     implementation("org.apache.commons:commons-text:1.10.0")
     implementation("org.mybatis:mybatis:3.5.13")
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation("com.google.code.gson:gson:2.10.1")
 
 }
 

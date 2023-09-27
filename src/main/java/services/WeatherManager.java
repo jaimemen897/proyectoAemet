@@ -1,12 +1,16 @@
 package services;
 
+import models.CombinedPreciProv;
 import models.CombinedProTemp;
 import models.Crud;
 import models.Weather;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Comparator.comparingDouble;
 import static java.util.stream.Collectors.*;
@@ -192,11 +196,11 @@ public class WeatherManager implements Crud<Weather> {
     }
 
     /*Lugares donde ha llovido agrupado por provincias y dia*/
-    public Map<CombinedProTemp, Double> getPlacesWhereRained() {
+    public Map<CombinedProTemp, List<Weather>> getPlacesWhereRained() {
         List<Weather> weathers = findAll();
         return weathers.stream()
-                .collect(groupingBy(combined -> new CombinedProTemp(combined.getProvincia(), combined.getDay()),
-                        averagingDouble(Weather::getTempMax)));
+                .filter(weather -> weather.getPrecipitacion() > 0)
+                .collect(groupingBy(combined -> new CombinedProTemp(combined.getProvincia(), combined.getDay()), toList()));
     }
 
     /*Temperatura máxima, mínima y dónde ha sido.*/
@@ -233,16 +237,13 @@ public class WeatherManager implements Crud<Weather> {
     }
 
     /*Precipitación máxima y dónde ha sido*/
-    public Map<LocalDate, Optional<HashMap<String, Double>>> getMaxPrecipitationByProvincia(String provincia) {
+    public Map<LocalDate, CombinedPreciProv> maxPrecipitationByProvincia(String provincia) {
         List<Weather> weathers = findAll();
         return weathers.stream()
                 .filter(weather -> weather.getProvincia().equals(provincia))
                 .collect(groupingBy(Weather::getDay,
                         collectingAndThen(maxBy(comparingDouble(Weather::getPrecipitacion)),
-                                w -> w.map(weather -> new HashMap<>() {{
-                                    put(weather.getLocalidad(), weather.getPrecipitacion());
-                                }}))));
-
+                                w -> w.map(weather -> new CombinedPreciProv(weather.getLocalidad(), weather.getPrecipitacion())).orElse(null))));
     }
 
     /*Precipitación media*/

@@ -1,13 +1,13 @@
-package Controllers;
+package controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.Data;
 import lombok.Getter;
+import models.LocalDateAdapter;
 import models.Weather;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -85,6 +85,40 @@ public class WeatherController {
         fecha = "2017-10-" + dia + " " + fecha;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return LocalDateTime.parse(fecha, formatter);
+    }
+
+    public List<Weather> findByNombre(String nombre) {
+        List<Weather> lista = new ArrayList<>();
+        for (Weather weather : weatherList) {
+            if (weather.getProvincia().equals(nombre)) {
+                lista.add(weather);
+            }
+        }
+        return lista;
+    }
+
+    public void exportJson(String provincia) {
+        String rutaDelArchivo = "src" + File.separator + "data" + File.separator + "Aemet.json";
+        /*si el fichero "rutaDelArchivo" eliminarlo y volverlo a crear*/
+        try {
+            Files.deleteIfExists(Paths.get(rutaDelArchivo));
+        } catch (IOException e) {
+            System.out.println("Error al crear el archivo JSON: " + e.getMessage());
+        }
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Weather.class, new LocalDateAdapter());
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        if (findByNombre(provincia) == null) {
+            System.out.println("No se ha encontrado la provincia");
+        } else {
+            try (FileWriter writer = new FileWriter(rutaDelArchivo)) {
+                gson.toJson(findByNombre(provincia), writer);
+            } catch (IOException e) {
+                System.out.println("Error al escribir el archivo JSON: " + e.getMessage());
+            }
+        }
     }
 }
 
