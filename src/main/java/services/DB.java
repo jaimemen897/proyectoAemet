@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.apache.ibatis.jdbc.ScriptRunner;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,7 +24,8 @@ public class DB implements AutoCloseable {
     /**
      * Ruta al archivo de propiedades de configuración de la base de datos.
      */
-    private static final String propertiesPath = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "database.properties";
+    private static final String propertiesPath = Paths.get("").toAbsolutePath() + File.separator + "resources" + File.separator + "database.properties";
+    private static final String initPath = Paths.get("").toAbsolutePath() + File.separator + "resources" + File.separator + "init.sql";
 
     /**
      * La conexión a la base de datos.
@@ -61,15 +63,16 @@ public class DB implements AutoCloseable {
      */
     public void openConnection() {
         try {
+            InputStream dbProps = ClassLoader.getSystemResourceAsStream("database.properties");
             Properties properties = new Properties();
-            properties.load(new FileReader(propertiesPath));
+            properties.load(dbProps);
             String url = properties.getProperty("db.url");
             String user = properties.getProperty("db.user");
             String password = properties.getProperty("db.password");
             String init = properties.getProperty("db.init");
             connection = DriverManager.getConnection(url, user, password);
 
-            Reader reader = new BufferedReader(new FileReader(getClass().getClassLoader().getResource(init).getPath()));
+            Reader reader = new BufferedReader(new FileReader(initPath));
             ScriptRunner scriptRunner = new ScriptRunner(connection);
             scriptRunner.runScript(reader);
 
