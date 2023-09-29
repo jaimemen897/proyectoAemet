@@ -1,6 +1,5 @@
 package services;
 
-import models.CombinedPreciProv;
 import models.CombinedProTemp;
 import models.Crud;
 import models.Weather;
@@ -142,9 +141,8 @@ public class WeatherManager implements Crud<Weather> {
 
     public Map<LocalDate, Optional<String>> maxTemp() {
         List<Weather> weathers = findAll();
-        return weathers.stream()
-                .collect(groupingBy(Weather::getDay,
-                        collectingAndThen(maxBy(comparingDouble(Weather::getTempMax)), w -> w.map(Weather::getProvincia))));
+        return weathers.stream().collect(groupingBy(Weather::getDay,
+                collectingAndThen(maxBy(comparingDouble(Weather::getTempMax)), w -> w.map(Weather::getProvincia))));
     }
 
 
@@ -203,6 +201,15 @@ public class WeatherManager implements Crud<Weather> {
                 .collect(groupingBy(combined -> new CombinedProTemp(combined.getProvincia(), combined.getDay()), toList()));
     }
 
+    /*Lugar donde más haya llovido*/
+    public String placedMaxRained() {
+        List<Weather> weathers = findAll();
+        return weathers.stream()
+                .filter(weather -> weather.getPrecipitacion() > 0)
+                .collect(collectingAndThen(maxBy(comparingDouble(Weather::getPrecipitacion)),
+                        w -> w.map(weather -> weather.getLocalidad() + " - " + weather.getProvincia()).orElse(null)));
+    }
+
     /*Temperatura máxima, mínima y dónde ha sido.*/
     public Map<LocalDate, Optional<String>> maxTempByProvincia(String provincia) {
         List<Weather> weathers = findAll();
@@ -237,13 +244,13 @@ public class WeatherManager implements Crud<Weather> {
     }
 
     /*Precipitación máxima y dónde ha sido*/
-    public Map<LocalDate, CombinedPreciProv> maxPrecipitationByProvincia(String provincia) {
+    public Map<LocalDate, CombinedProTemp> maxPrecipitationByProvincia(String provincia) {
         List<Weather> weathers = findAll();
         return weathers.stream()
                 .filter(weather -> weather.getProvincia().equals(provincia))
                 .collect(groupingBy(Weather::getDay,
                         collectingAndThen(maxBy(comparingDouble(Weather::getPrecipitacion)),
-                                w -> w.map(weather -> new CombinedPreciProv(weather.getLocalidad(), weather.getPrecipitacion())).orElse(null))));
+                                w -> w.map(weather -> new CombinedProTemp(weather.getLocalidad(), weather.getPrecipitacion())).orElse(null))));
     }
 
     /*Precipitación media*/
@@ -253,6 +260,8 @@ public class WeatherManager implements Crud<Weather> {
                 .filter(weather -> weather.getProvincia().equals(provincia))
                 .collect(groupingBy(Weather::getDay, averagingDouble(Weather::getPrecipitacion)));
     }
+
+
 
 }
 
