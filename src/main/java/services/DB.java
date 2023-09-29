@@ -9,16 +9,40 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * La clase `DB` representa una conexión a una base de datos y proporciona métodos para abrir y cerrar la conexión.
+ * Utiliza un patrón Singleton para garantizar una única instancia de la conexión a la base de datos.
+ */
 @Getter
 public class DB implements AutoCloseable {
+    /**
+     * Instancia única de la clase `DB`.
+     */
     private static DB instance;
+
+    /**
+     * Ruta al archivo de propiedades de configuración de la base de datos.
+     */
     private static final String propertiesPath = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "database.properties";
+
+    /**
+     * La conexión a la base de datos.
+     */
     private Connection connection;
 
+    /**
+     * Constructor privado de la clase `DB` utilizado para implementar el patrón Singleton.
+     * Abre la conexión a la base de datos al crear una instancia de la clase.
+     */
     private DB() {
         openConnection();
     }
 
+    /**
+     * Obtiene la instancia única de la clase `DB`.
+     *
+     * @return La instancia única de `DB`.
+     */
     public static DB getInstance() {
         try {
             Class.forName("org.h2.Driver");
@@ -31,6 +55,10 @@ public class DB implements AutoCloseable {
         return instance;
     }
 
+    /**
+     * Abre una conexión a la base de datos utilizando la configuración proporcionada en el archivo de propiedades.
+     * También ejecuta un script de inicialización en la base de datos.
+     */
     public void openConnection() {
         try {
             Properties properties = new Properties();
@@ -52,8 +80,13 @@ public class DB implements AutoCloseable {
         }
     }
 
+    /**
+     * Cierra la conexión a la base de datos.
+     *
+     * @throws SQLException Si ocurre un error al cerrar la conexión.
+     */
     @Override
-    public void close() throws Exception {
+    public void close() throws SQLException {
         connection.close();
     }
 }
