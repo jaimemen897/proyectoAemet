@@ -21,3 +21,5 @@ El día viene en el propio nombre del fichero.
     - [x]  Precipitación media.
 
 - [x] Exportar los datos de una provincia dada (por ejemplo Madrid) a un fichero json.
+
+- [ ] Revisar que todo esté bien private o public e instancias
