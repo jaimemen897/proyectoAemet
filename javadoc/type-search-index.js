@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"models","l":"CombinedProTemp"},{"p":"repositories","l":"Crud"},{"p":"services","l":"DB"},{"p":"models","l":"LocalDateAdapter"},{"p":"<Unnamed>","l":"Main"},{"p":"models","l":"Weather"},{"p":"controllers","l":"WeatherController"},{"p":"services","l":"WeatherManager"}];updateSearchResults();
