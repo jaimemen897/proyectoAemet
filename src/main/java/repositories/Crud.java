@@ -1,4 +1,4 @@
-package models;
+package repositories;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +7,7 @@ import java.util.Optional;
  * La interfaz `Crud` define operaciones CRUD (Crear, Leer, Actualizar y Eliminar) básicas para entidades de un tipo genérico T.
  *
  * @param <T> El tipo genérico que representa la entidad con la que se realizarán las operaciones CRUD.
+ * @author Jaime Medina y Eva Gómez
  */
 public interface Crud<T> {
 
@@ -14,21 +15,23 @@ public interface Crud<T> {
      * Guarda una entidad de tipo T.
      *
      * @param t La entidad de tipo T que se va a guardar.
+     * @return La entidad de tipo T que se ha guardado.
      */
-    void save(T t);
+    T save(T t);
 
     /**
      * Actualiza una entidad de tipo T.
      *
      * @param t La entidad de tipo T que se va a actualizar.
+     * @return La entidad de tipo T que se ha actualizado.
      */
-    void update(T t);
+    T update(T t);
 
     /**
      * Busca una entidad de tipo T por localidad y provincia.
      *
-     * @param localidad  La localidad de la entidad a buscar.
-     * @param provincia  La provincia de la entidad a buscar.
+     * @param localidad La localidad de la entidad a buscar.
+     * @param provincia La provincia de la entidad a buscar.
      * @return Un objeto Optional que contiene la entidad de tipo T si se encuentra, o un valor vacío si no se encuentra.
      */
     Optional<T> findByLocalidadAndProvincia(String localidad, String provincia);
@@ -44,8 +47,9 @@ public interface Crud<T> {
      * Elimina una entidad de tipo T.
      *
      * @param t La entidad de tipo T que se va a eliminar.
+     * @return La entidad de tipo T que se ha eliminado.
      */
-    void delete(T t);
+    T delete(T t);
 
     /**
      * Elimina todas las entidades de tipo T.

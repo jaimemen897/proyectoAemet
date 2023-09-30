@@ -1,0 +1,572 @@
+[
+  {
+    "localidad": "Puerto de Navacerrada",
+    "provincia": "Madrid",
+    "tempMax": 16.2,
+    "horaTempMax": "14:10",
+    "tempMin": 6.3,
+    "horaTempMin": "14:10",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Aranjuez",
+    "provincia": "Madrid",
+    "tempMax": 25.1,
+    "horaTempMax": "16:30",
+    "tempMin": 6.5,
+    "horaTempMin": "16:30",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Rascafría",
+    "provincia": "Madrid",
+    "tempMax": 24.3,
+    "horaTempMax": "15:20",
+    "tempMin": 3.5,
+    "horaTempMin": "15:20",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Buitrago del Lozoya",
+    "provincia": "Madrid",
+    "tempMax": 22.8,
+    "horaTempMax": "14:40",
+    "tempMin": 6.6,
+    "horaTempMin": "14:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Somosierra",
+    "provincia": "Madrid",
+    "tempMax": 15.1,
+    "horaTempMax": "16:10",
+    "tempMin": 5.3,
+    "horaTempMin": "16:10",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Madrid, El Goloso",
+    "provincia": "Madrid",
+    "tempMax": 21.2,
+    "horaTempMax": "17:00",
+    "tempMin": 7.6,
+    "horaTempMin": "17:00",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Madrid Aeropuerto",
+    "provincia": "Madrid",
+    "tempMax": 23.8,
+    "horaTempMax": "16:40",
+    "tempMin": 8.3,
+    "horaTempMin": "16:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Alcala de Henares",
+    "provincia": "Madrid",
+    "tempMax": 23.5,
+    "horaTempMax": "16:30",
+    "tempMin": 9.8,
+    "horaTempMin": "16:30",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Arganda del Rey",
+    "provincia": "Madrid",
+    "tempMax": 24.4,
+    "horaTempMax": "16:50",
+    "tempMin": 6.1,
+    "horaTempMin": "16:50",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Colmenar Viejo",
+    "provincia": "Madrid",
+    "tempMax": 20.1,
+    "horaTempMax": "16:10",
+    "tempMin": 9.7,
+    "horaTempMin": "16:10",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Madrid, Ciudad Universitaria",
+    "provincia": "Madrid",
+    "tempMax": 23.6,
+    "horaTempMax": "16:20",
+    "tempMin": 6.8,
+    "horaTempMin": "16:20",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Pozuelo de Alarcón",
+    "provincia": "Madrid",
+    "tempMax": 24.4,
+    "horaTempMax": "17:30",
+    "tempMin": 5.2,
+    "horaTempMin": "17:30",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Madrid, Retiro",
+    "provincia": "Madrid",
+    "tempMax": 22.2,
+    "horaTempMax": "15:50",
+    "tempMin": 12.3,
+    "horaTempMin": "15:50",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Tielmes",
+    "provincia": "Madrid",
+    "tempMax": 23.1,
+    "horaTempMax": "15:50",
+    "tempMin": 11.8,
+    "horaTempMin": "15:50",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Puerto Alto del León",
+    "provincia": "Madrid",
+    "tempMax": 14.5,
+    "horaTempMax": "00:10",
+    "tempMin": 4.2,
+    "horaTempMin": "00:10",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Alpedrete",
+    "provincia": "Madrid",
+    "tempMax": 24.5,
+    "horaTempMax": "14:50",
+    "tempMin": 10.6,
+    "horaTempMin": "14:50",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Rozas de Puerto Real",
+    "provincia": "Madrid",
+    "tempMax": 22.5,
+    "horaTempMax": "17:30",
+    "tempMin": 12.6,
+    "horaTempMin": "17:30",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Robledo de Chavela",
+    "provincia": "Madrid",
+    "tempMax": 23.4,
+    "horaTempMax": "16:30",
+    "tempMin": 8.7,
+    "horaTempMin": "16:30",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Valdemorillo",
+    "provincia": "Madrid",
+    "tempMax": 23.0,
+    "horaTempMax": "16:30",
+    "tempMin": 9.5,
+    "horaTempMin": "16:30",
+    "precipitacion": 0.0,
+    "day": "2017-10-29"
+  },
+  {
+    "localidad": "Puerto de Navacerrada",
+    "provincia": "Madrid",
+    "tempMax": 15.1,
+    "horaTempMax": "13:30",
+    "tempMin": 5.9,
+    "horaTempMin": "13:30",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Rascafría",
+    "provincia": "Madrid",
+    "tempMax": 23.2,
+    "horaTempMax": "14:10",
+    "tempMin": -0.2,
+    "horaTempMin": "14:10",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Buitrago del Lozoya",
+    "provincia": "Madrid",
+    "tempMax": 21.6,
+    "horaTempMax": "12:50",
+    "tempMin": 2.3,
+    "horaTempMin": "12:50",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Somosierra",
+    "provincia": "Madrid",
+    "tempMax": 15.1,
+    "horaTempMax": "14:40",
+    "tempMin": 3.4,
+    "horaTempMin": "14:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Madrid, El Goloso",
+    "provincia": "Madrid",
+    "tempMax": 21.2,
+    "horaTempMax": "13:40",
+    "tempMin": 4.9,
+    "horaTempMin": "13:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Madrid Aeropuerto",
+    "provincia": "Madrid",
+    "tempMax": 24.1,
+    "horaTempMax": "15:40",
+    "tempMin": 5.1,
+    "horaTempMin": "15:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Alcala de Henares",
+    "provincia": "Madrid",
+    "tempMax": 23.6,
+    "horaTempMax": "14:40",
+    "tempMin": 4.1,
+    "horaTempMin": "14:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Arganda del Rey",
+    "provincia": "Madrid",
+    "tempMax": 24.7,
+    "horaTempMax": "15:20",
+    "tempMin": 6.3,
+    "horaTempMin": "15:20",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Colmenar Viejo",
+    "provincia": "Madrid",
+    "tempMax": 20.7,
+    "horaTempMax": "16:40",
+    "tempMin": 8.9,
+    "horaTempMin": "16:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Madrid, Ciudad Universitaria",
+    "provincia": "Madrid",
+    "tempMax": 23.7,
+    "horaTempMax": "15:40",
+    "tempMin": 4.2,
+    "horaTempMin": "15:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Pozuelo de Alarcón",
+    "provincia": "Madrid",
+    "tempMax": 24.8,
+    "horaTempMax": "16:30",
+    "tempMin": 3.3,
+    "horaTempMin": "16:30",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Madrid, Retiro",
+    "provincia": "Madrid",
+    "tempMax": 22.1,
+    "horaTempMax": "16:10",
+    "tempMin": 10.2,
+    "horaTempMin": "16:10",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Tielmes",
+    "provincia": "Madrid",
+    "tempMax": 23.2,
+    "horaTempMax": "16:10",
+    "tempMin": 6.0,
+    "horaTempMin": "16:10",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Puerto Alto del León",
+    "provincia": "Madrid",
+    "tempMax": 13.9,
+    "horaTempMax": "14:00",
+    "tempMin": 3.0,
+    "horaTempMin": "14:00",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Alpedrete",
+    "provincia": "Madrid",
+    "tempMax": 25.2,
+    "horaTempMax": "14:40",
+    "tempMin": 5.9,
+    "horaTempMin": "14:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Torrelodones",
+    "provincia": "Madrid",
+    "tempMax": 23.5,
+    "horaTempMax": "16:00",
+    "tempMin": 6.1,
+    "horaTempMin": "16:00",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Rozas de Puerto Real",
+    "provincia": "Madrid",
+    "tempMax": 22.3,
+    "horaTempMax": "15:20",
+    "tempMin": 7.7,
+    "horaTempMin": "15:20",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Robledo de Chavela",
+    "provincia": "Madrid",
+    "tempMax": 23.3,
+    "horaTempMax": "14:30",
+    "tempMin": 6.7,
+    "horaTempMin": "14:30",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Valdemorillo",
+    "provincia": "Madrid",
+    "tempMax": 22.9,
+    "horaTempMax": "15:50",
+    "tempMin": 7.6,
+    "horaTempMin": "15:50",
+    "precipitacion": 0.0,
+    "day": "2017-10-30"
+  },
+  {
+    "localidad": "Puerto de Navacerrada",
+    "provincia": "Madrid",
+    "tempMax": 12.8,
+    "horaTempMax": "12:10",
+    "tempMin": 4.5,
+    "horaTempMin": "03:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Aranjuez",
+    "provincia": "Madrid",
+    "tempMax": 22.4,
+    "horaTempMax": "16:40",
+    "tempMin": 4.8,
+    "horaTempMin": "06:30",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Rascafría",
+    "provincia": "Madrid",
+    "tempMax": 18.0,
+    "horaTempMax": "14:40",
+    "tempMin": -0.9,
+    "horaTempMin": "06:20",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Buitrago del Lozoya",
+    "provincia": "Madrid",
+    "tempMax": 15.1,
+    "horaTempMax": "15:40",
+    "tempMin": -0.2,
+    "horaTempMin": "08:00",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Somosierra",
+    "provincia": "Madrid",
+    "tempMax": 13.3,
+    "horaTempMax": "15:20",
+    "tempMin": 3.2,
+    "horaTempMin": "00:10",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Madrid, El Goloso",
+    "provincia": "Madrid",
+    "tempMax": 16.9,
+    "horaTempMax": "16:40",
+    "tempMin": 6.0,
+    "horaTempMin": "05:30",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Madrid Aeropuerto",
+    "provincia": "Madrid",
+    "tempMax": 20.1,
+    "horaTempMax": "16:10",
+    "tempMin": 6.4,
+    "horaTempMin": "07:00",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Alcala de Henares",
+    "provincia": "Madrid",
+    "tempMax": 20.3,
+    "horaTempMax": "17:00",
+    "tempMin": 6.0,
+    "horaTempMin": "07:20",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Colmenar Viejo",
+    "provincia": "Madrid",
+    "tempMax": 16.2,
+    "horaTempMax": "15:40",
+    "tempMin": 6.9,
+    "horaTempMin": "07:00",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Madrid, Ciudad Universitaria",
+    "provincia": "Madrid",
+    "tempMax": 19.7,
+    "horaTempMax": "16:20",
+    "tempMin": 8.2,
+    "horaTempMin": "03:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Pozuelo de Alarcón",
+    "provincia": "Madrid",
+    "tempMax": 20.1,
+    "horaTempMax": "16:40",
+    "tempMin": 5.3,
+    "horaTempMin": "07:20",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Madrid, Retiro",
+    "provincia": "Madrid",
+    "tempMax": 18.3,
+    "horaTempMax": "16:30",
+    "tempMin": 9.9,
+    "horaTempMin": "06:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Tielmes",
+    "provincia": "Madrid",
+    "tempMax": 20.1,
+    "horaTempMax": "15:20",
+    "tempMin": 6.5,
+    "horaTempMin": "07:30",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Puerto Alto del León",
+    "provincia": "Madrid",
+    "tempMax": 11.1,
+    "horaTempMax": "16:00",
+    "tempMin": 4.4,
+    "horaTempMin": "02:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Alpedrete",
+    "provincia": "Madrid",
+    "tempMax": 19.8,
+    "horaTempMax": "16:10",
+    "tempMin": 5.5,
+    "horaTempMin": "07:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Torrelodones",
+    "provincia": "Madrid",
+    "tempMax": 18.6,
+    "horaTempMax": "15:10",
+    "tempMin": 5.7,
+    "horaTempMin": "05:30",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Rozas de Puerto Real",
+    "provincia": "Madrid",
+    "tempMax": 16.6,
+    "horaTempMax": "16:00",
+    "tempMin": 6.5,
+    "horaTempMin": "08:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Robledo de Chavela",
+    "provincia": "Madrid",
+    "tempMax": 17.9,
+    "horaTempMax": "14:30",
+    "tempMin": 6.7,
+    "horaTempMin": "05:40",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  },
+  {
+    "localidad": "Valdemorillo",
+    "provincia": "Madrid",
+    "tempMax": 18.2,
+    "horaTempMax": "16:20",
+    "tempMin": 7.2,
+    "horaTempMin": "08:00",
+    "precipitacion": 0.0,
+    "day": "2017-10-31"
+  }
+]

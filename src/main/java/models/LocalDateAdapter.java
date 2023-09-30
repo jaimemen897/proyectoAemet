@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 /**
  * La clase `LocalDateAdapter` implementa la interfaz `JsonSerializer` para personalizar la serialización de objetos `Weather`
  * a formato JSON. Esta clase se encarga de definir cómo se deben convertir los objetos `Weather` en elementos JSON.
+ * @author Jaime Medina y Eva Gómez
  */
 public class LocalDateAdapter implements JsonSerializer<Weather> {
     /**

@@ -22,8 +22,4 @@ El día viene en el propio nombre del fichero.
 
 - [x] Exportar los datos de una provincia dada (por ejemplo Madrid) a un fichero json.
 
-- [ ] En weather eliminar el constructor y usar el builder
-- [ ] Cambiar lo que devuelve el crud (update y esas cosas)
-- [ ] Cambiar lo de la fecha en changeDate en weathercontroller
 - [ ] Revisar que todo esté bien private o public e instancias
-- [ ] Hacer que no se duplique el json

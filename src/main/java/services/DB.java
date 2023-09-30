@@ -13,6 +13,7 @@ import java.util.Properties;
 /**
  * La clase `DB` representa una conexión a una base de datos y proporciona métodos para abrir y cerrar la conexión.
  * Utiliza un patrón Singleton para garantizar una única instancia de la conexión a la base de datos.
+ * @author Jaime Medina y Eva Gómez
  */
 @Getter
 public class DB implements AutoCloseable {
@@ -46,13 +47,13 @@ public class DB implements AutoCloseable {
      * @return La instancia única de `DB`.
      */
     public static DB getInstance() {
+        if (instance == null) {
+            instance = new DB();
+        }
         try {
             Class.forName("org.h2.Driver");
         } catch (ClassNotFoundException e) {
             System.out.println("Error al cargar el driver: " + e.getMessage());
-        }
-        if (instance == null) {
-            instance = new DB();
         }
         return instance;
     }
@@ -69,7 +70,6 @@ public class DB implements AutoCloseable {
             String url = properties.getProperty("db.url");
             String user = properties.getProperty("db.user");
             String password = properties.getProperty("db.password");
-            String init = properties.getProperty("db.init");
             connection = DriverManager.getConnection(url, user, password);
 
             Reader reader = new BufferedReader(new FileReader(initPath));

@@ -1,7 +1,7 @@
 package services;
 
 import models.CombinedProTemp;
-import models.Crud;
+import repositories.Crud;
 import models.Weather;
 
 import java.sql.*;
@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.*;
  * La clase `WeatherManager` implementa la interfaz `Crud` y se encarga de gestionar los datos meteorológicos
  * almacenados en una base de datos. Proporciona métodos para realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar)
  * en la tabla de datos meteorológicos.
+ * @author Jaime Medina y Eva Gómez
  */
 public class WeatherManager implements Crud<Weather> {
     /**
@@ -57,17 +58,18 @@ public class WeatherManager implements Crud<Weather> {
      * Guarda los datos meteorológicos en la base de datos.
      *
      * @param weather Los datos meteorológicos a guardar.
+     * @return Los datos meteorológicos guardados.
      */
-    public void save(Weather weather) {
+    public Weather save(Weather weather) {
         try {
             String sqlQuery = "INSERT INTO WEATHER (localidad, provincia, tempMax, horaTempMax, tempMin, horaTempMin, precipitacion, dia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setString(1, weather.getLocalidad());
             statement.setString(2, weather.getProvincia());
             statement.setDouble(3, weather.getTempMax());
-            statement.setTimestamp(4, Timestamp.valueOf(weather.getHoraTempMax()));
+            statement.setTimestamp(4, Timestamp.valueOf(weather.getHoraTempMax().atDate(weather.getDay())));
             statement.setDouble(5, weather.getTempMin());
-            statement.setTimestamp(6, Timestamp.valueOf(weather.getHoraTempMin()));
+            statement.setTimestamp(6, Timestamp.valueOf(weather.getHoraTempMin().atDate(weather.getDay())));
             statement.setDouble(7, weather.getPrecipitacion());
             statement.setTimestamp(8, Timestamp.valueOf(weather.getDay().atStartOfDay()));
 
@@ -75,6 +77,7 @@ public class WeatherManager implements Crud<Weather> {
         } catch (SQLException e) {
             System.out.println("Error al insertar: " + e.getMessage());
         }
+        return weather;
     }
 
     /**
@@ -91,9 +94,9 @@ public class WeatherManager implements Crud<Weather> {
                         resultSet.getString("localidad"),
                         resultSet.getString("provincia"),
                         resultSet.getDouble("tempMax"),
-                        resultSet.getTimestamp("horaTempMax").toLocalDateTime(),
+                        resultSet.getTimestamp("horaTempMax").toLocalDateTime().toLocalTime(),
                         resultSet.getDouble("tempMin"),
-                        resultSet.getTimestamp("horaTempMin").toLocalDateTime(),
+                        resultSet.getTimestamp("horaTempMin").toLocalDateTime().toLocalTime(),
                         resultSet.getDouble("precipitacion"),
                         resultSet.getTimestamp("dia").toLocalDateTime().toLocalDate()));
             }
@@ -122,9 +125,9 @@ public class WeatherManager implements Crud<Weather> {
                         resultSet.getString("localidad"),
                         resultSet.getString("provincia"),
                         resultSet.getDouble("tempMax"),
-                        resultSet.getTimestamp("horaTempMax").toLocalDateTime(),
+                        resultSet.getTimestamp("horaTempMax").toLocalDateTime().toLocalTime(),
                         resultSet.getDouble("tempMin"),
-                        resultSet.getTimestamp("horaTempMin").toLocalDateTime(),
+                        resultSet.getTimestamp("horaTempMin").toLocalDateTime().toLocalTime(),
                         resultSet.getDouble("precipitacion"),
                         resultSet.getTimestamp("day").toLocalDateTime().toLocalDate());
             }
@@ -138,16 +141,17 @@ public class WeatherManager implements Crud<Weather> {
      * Actualiza los datos meteorológicos en la base de datos.
      *
      * @param weather Los nuevos datos meteorológicos.
+     * @return Los datos meteorológicos actualizados.
      */
-    public void update(Weather weather) {
+    public Weather update(Weather weather) {
         try {
             String sqlQuery = "UPDATE WEATHER SET tempMax = ?, horaTempMax = ?, tempMin = ?, horaTempMin = ?, precipitacion = ?, dia = ? WHERE localidad = ? AND provincia = ?";
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
 
             statement.setDouble(1, weather.getTempMax());
-            statement.setTimestamp(2, Timestamp.valueOf(weather.getHoraTempMax()));
+            statement.setTimestamp(2, Timestamp.valueOf(weather.getHoraTempMax().atDate(weather.getDay())));
             statement.setDouble(3, weather.getTempMin());
-            statement.setTimestamp(4, Timestamp.valueOf(weather.getHoraTempMin()));
+            statement.setTimestamp(4, Timestamp.valueOf(weather.getHoraTempMin().atDate(weather.getDay())));
             statement.setDouble(5, weather.getPrecipitacion());
             statement.setString(6, weather.getLocalidad());
             statement.setString(7, weather.getProvincia());
@@ -156,14 +160,16 @@ public class WeatherManager implements Crud<Weather> {
         } catch (SQLException e) {
             System.out.println("Error al actualizar: " + e.getMessage());
         }
+        return weather;
     }
 
     /**
      * Elimina los datos meteorológicos de la base de datos.
      *
      * @param weather Los datos meteorológicos a eliminar.
+     * @return Los datos meteorológicos eliminados.
      */
-    public void delete(Weather weather) {
+    public Weather delete(Weather weather) {
         try {
             String sqlQuery = "DELETE FROM WEATHER WHERE localidad = ? AND provincia = ? and dia = ?";
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
@@ -174,6 +180,7 @@ public class WeatherManager implements Crud<Weather> {
         } catch (SQLException e) {
             System.out.println("Error al eliminar: " + e.getMessage());
         }
+        return weather;
     }
 
     /**
